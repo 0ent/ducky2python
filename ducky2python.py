@@ -3,6 +3,8 @@
 thus offering a convenient way of testing a script without requiring to load it on a Rubber Ducky each time.
 '''
 
+import sys
+
 # Print Ascii Art:
 print("     _            _          ____              _   _                 ")
 print("  __| |_   _  ___| | ___   _|___ \\ _ __  _   _| |_| |__   ___  _ __  ")
@@ -13,7 +15,12 @@ print("                       |___/      |_|    |___/ \tby CedArctic            
 print("\n\n")
 
 # Load Ducky Script and create Python Output file:
-duckyScriptPath = input("Drag and drop the ducky script txt file:\n")
+
+if len(sys.argv)>1:
+    duckyScriptPath = sys.argv[1]
+else:
+    duckyScriptPath = input("Drag and drop the ducky script txt file:\n")
+
 f = open(duckyScriptPath,"r",encoding='utf-8')
 pythonScript = open("PythonScript.py", "w", encoding='utf-8')
 
@@ -97,5 +104,10 @@ for line in duckyScript:
 	pythonScript.write("\n")
 
 # Close output file before exiting
-pythonScript.close()	
-input("\nConversion complete!\n\nPress any key to close.")
+pythonScript.close()
+
+if len(sys.argv)>1:
+    print("\nConversion complete!\nExecuting...\n")
+    exec(open("./PythonScript.py").read())
+else:
+    input("\nConversion complete!\n\nPress any key to close.")
